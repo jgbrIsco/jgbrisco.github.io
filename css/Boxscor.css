@@ -1,0 +1,18 @@
+nav ul { margin: 0; padding: 0; list-style: none; }
+nav li { display: inline-block; 
+         *zoom: 1; *display: inline; /* IE6/7 haslayout */
+         border:1px #ccc solid; }
+nav a.current { background: #c6c5c9; }
+nav a { display: block; padding: 10px; }
+#MLB {
+    background-color: palegreen;
+}
+#NFL {
+    background-color : lightsteelblue;
+}
+#NHL {
+    background-color: aliceblue;
+}
+#NBA {
+    background-color: lightsalmon;
+}
