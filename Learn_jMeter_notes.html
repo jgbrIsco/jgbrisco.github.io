@@ -1,0 +1,1745 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=windows-1252"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 6.3.6.2 (Windows)"/>
+	<meta name="created" content="2020-06-15T06:33:48.080000000"/>
+	<meta name="changed" content="2020-06-25T07:56:44.715000000"/>
+	<style type="text/css">
+		@page { size: 21.59cm 27.94cm; margin: 2cm }
+		p { margin-bottom: 0.25cm; line-height: 115%; background: transparent }
+		a:link { color: #000080; so-language: zxx; text-decoration: underline }
+		a:visited { color: #800000; so-language: zxx; text-decoration: underline }
+	</style>
+</head>
+<body lang="en-CA" link="#000080" vlink="#800000" dir="ltr"><p style="margin-bottom: 0cm; line-height: 100%">
+jMeter Notes from Udemy course &ldquo;Learn jMeter from Scratch&rdquo;<br/>
+<br/>
+I
+completed this Udemy course to get a different perspective of Jmeter
+and evaluate features that I hadn&rsquo;t used previously.</p>
+<p style="margin-bottom: 0cm; line-height: 100%">The course delivered
+on my objectives, although the quality was poor. <br/>
+<br/>
+Pros:<br/>
+Good
+coverage of Jmeter features in a practical QA context<br/>
+The
+instructor responds to Q&amp;A  and The examples worked<br/>
+Good
+coverage for &lsquo;new to Jmeter&rsquo; users<br/>
+Cons:<br/>
+Slow
+pace<br/>
+Lack of editing where the instructor was troubleshooting
+and searching menus on the fly. Certain cuteness factor,
+though.<br/>
+Section on REST and SOAP obsolete and should be updated
+or removed.<br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Here are my course
+notes 
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font size="4" style="font-size: 14pt"><b>Sections
+1 and 2 Setup, test websites and recording</b></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Setup on Windows</p>
+<ul>
+	<li><p style="margin-bottom: 0cm; line-height: 100%">Prerequsite is
+	Java SE or some version of java.  Run java -version in a command
+	window to see if it is there.  If not download and install the
+	latest java sdk like <a href="https://www.oracle.com/java/technologies/">jdk-14.0.1_windows-x64_bin.exe</a><br/>
+&ldquo;C:\Program
+	Files\Java\jdk-14.0.1\bin&rdquo; should be in your system path
+	environment variable.  Run &ldquo;path&rdquo; in a command window to
+	see it is there.</p>
+	<li><p style="margin-bottom: 0cm; line-height: 100%">Download <a href="https://jmeter.apache.org/download_jmeter.cgi">Apache
+	Jmeter</a></p>
+	<li><p style="margin-bottom: 0cm; line-height: 100%">Install the
+	<a href="https://jmeter-plugins.org/wiki/PluginsManager/">jMeter
+	plugins</a> (referenced below)</p>
+</ul>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Test websites<br/>
+Don&rsquo;t
+do load testing on public websites.  It is not ethical and public
+sites will either block repeated access from the same ip address or
+be negatively affected.<br/>
+Here are some sites that have been made
+available specifically for test automation development, including
+load testing.</p>
+<ul>
+	<li><p style="margin-bottom: 0cm; line-height: 100%"><a href="https://blazedemo.com/">https://blazedemo.com/</a>
+	  povided by blazemeter.com a jmeter-based load testing paas /saas
+	company</p>
+	<li><p style="margin-bottom: 0cm; line-height: 100%"><a href="https://the-internet.herokuapp.com/">https://the-internet.herokuapp.com</a>
+	, for example <a href="https://the-internet.herokuapp.com/login">https://the-internet.herokuapp.com/login</a>
+	 for login testing</p>
+	<li><p style="margin-bottom: 0cm; line-height: 100%"><a href="http://www.newtours.demoaut.com/">http://www.newtours.demoaut.com/</a>
+	Testing site provided by Mercury International</p>
+	<li><p style="margin-bottom: 0cm; line-height: 100%">Another option
+	is to set up a local apache webserver app by downloading from 
+	<a href="https://marketplace.microfocus.com/appdelivery/content/web-tours-sample-application">Webtours</a>
+	. Requires a free account.<br/>
+Note:<br/>
+To allow Test Script
+	Recorder to work with local Webtours, you may have to set these
+	Firefox properties in
+	about:config<br/>
+Network.captive-portal-service.enabled&quot; from
+	TRUE to FALSE Network.proxy.allow_hijacking_localhost from FALSE to
+	TRUE<br/>
+<br/>
+
+	</p>
+</ul>
+<p style="margin-bottom: 0cm; line-height: 100%"><font size="4" style="font-size: 14pt"><b>Section
+2 walks through recording a simple test in Firefox with jMeter&rsquo;s
+built in Test Script Recorder,</b></font> after setting network proxy
+from System to Manual.  It also demonstrates the Blazemeter  Chrome
+plugin.  Note that the Blazemeter plugin recording requires a
+registration with Blazemeter and is not used in any subsequent
+sections.</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font size="4" style="font-size: 14pt"><b>Section
+3 Thread Group and Listener</b></font>s</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Thread Group is a
+container for Controllers and Samplers and represents a number of
+threads or users simultaneously accessing the target system.</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Listeners are
+elements that display a visualization of a running and completed
+test.  Without one or more listeners there is no indication that a
+test is running.<br/>
+The most basic listener is View Results Tree,
+which lists the request and response of each sampler and shows an
+icon representing a status code of success or error.</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><img src="./img/Learn_jMeter_notes%202_html_ba0b1a9d38c61665.png" name="Image11" align="left" width="997" height="372" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Other key listeners
+are:<br/>
+Aggregate Report: Shows statistics for the entire run</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><img src="Learn_jMeter_notes%202_html_f2fd1dde3249ee2b.png" name="Image10" align="left" width="997" height="258" border="0"/>
+<br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Graph Report: Shows
+several metrics for each sample in a run</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><img src="Learn_jMeter_notes%202_html_a0ec8425b7bedc43.png" name="Image9" align="left" width="997" height="454" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font size="4" style="font-size: 14pt"><b>Section
+4 Plug in Manager and Additional Thread Group options</b></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%">The Plug In Manager
+must be added to jMeter from a link <a href="https://jmeter-plugins.org/wiki/PluginsManager/">here</a>.<br/>
+<br/>
+A
+useful plug-in example is Custom Thread Groups<br/>
+Concurrency
+Thread Group has More granularity for ramp-up than the base thread
+group.</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><img src="Learn_jMeter_notes%202_html_fdc1047066f5068.png" name="Image7" align="left" width="997" height="488" border="0"/>
+<br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Ultimate Thread
+Group can assign a staged ramp up time, hold time  and ramp down time</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><img src="Learn_jMeter_notes%202_html_c5df01b0971fd595.png" name="Image8" align="left" width="997" height="417" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font size="4" style="font-size: 14pt"><b>Section
+5 HTTP Cookie Manager</b></font><br/>
+A Config Element of type Cookie
+Manager is added to store a session cookie and pass it to subsequent
+sampler requests.  Typically the session cookie is required to be
+passed in a login request or other sensitive request.</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font size="4" style="font-size: 14pt"><b>Section
+6 Assertions</b></font><br/>
+Assertions can be added to samples or
+controllers to validate a response for more than a status
+code.<br/>
+Standard assertions for an HTML response are Response
+Assertion, Size Assertion and Duration Assertion.<br/>
+Other
+Assertion types cover JSON, Xpath, Bean shell etc.<br/>
+Assertions
+can be viewed in an Assertion Results Listener</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font size="4" style="font-size: 14pt"><b>Section
+7 Demo local  web application</b></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%">This section
+describes downloading an apache webserver app, <a href="https://marketplace.microfocus.com/appdelivery/content/web-tours-sample-application">Webtours</a>,
+ that runs a local testing website.<br/>
+An account is required, it
+seems to be benign. 
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">To allow Test Script
+Recorder to work with local Webtours, you may have to set these
+Firefox properties in
+about:config<br/>
+Network.captive-portal-service.enabled&quot; from
+TRUE to FALSE Network.proxy.allow_hijacking_localhost from FALSE to
+TRUE<br/>
+<br/>
+<font size="4" style="font-size: 14pt"><b>Section 8
+Controllers</b></font><br/>
+<br/>
+Controllers organize samplers and
+permit iterative and conditional execution<br/>
+Transaction
+Controllers group samplers and permit parameters to be applied at a
+group level.<br/>
+Interleave Controllers group transaction
+controllers and alternate which controller is run.<br/>
+Runtime
+controller will continuously run it&rsquo;s contents for a specified
+period of time.<br/>
+Recording Controller will hold all samplers
+created by a Test Script Recorder and is the default Target
+Controller <br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font size="4" style="font-size: 14pt"><b>Section
+9 Timers</b></font><br/>
+Timers can be added to more closely emulate
+actual user load.<br/>
+For example a Random timer can be added to
+moderate a sampler request from 50 requests in 1 second to 50
+requests in 5 seconds.<br/>
+Or a Constant Throughput Timer can
+generate delays to cap the maximum samples per minute that are
+executed.</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font size="4" style="font-size: 14pt"><b>Section
+10 Regular Expression Extractor</b></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%">Use Case: Script is
+recorded with User A credentials and the script needs to run with
+credentials passed as variables.<br/>
+Add a Regular Expression
+Extractor with a variable name and a regex like .+? enclosed in ()<br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><img src="Learn_jMeter_notes%202_html_582644d632cf7ac5.png" name="Image6" align="left" width="997" height="431" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font size="4" style="font-size: 14pt"><b>Section
+11 Data Driven Testing</b></font><br/>
+jMeter can read input values
+from an external .csv file</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Add a Data Element
+of type CSV Data Set Config to the Thread Group.  No header in the
+csv.</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+Add variable
+names for the fields in a comma-separated list</p>
+<p style="margin-bottom: 0cm; line-height: 100%">In the sampler&rsquo;s
+parameter list add the variable in the form ${variable-name}</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><img src="Learn_jMeter_notes%202_html_8fc432d43ec38d66.png" name="Image5" align="left" width="997" height="434" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; font-weight: normal; line-height: 100%">
+<font size="3" style="font-size: 12pt">The variable is then passed in
+the sampler, replacing a hard-coded value that may have been
+collected by the script recorder</font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><img src="Learn_jMeter_notes%202_html_c9b784ab57f8a38c.png" name="Image4" align="left" width="997" height="390" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font size="4" style="font-size: 14pt"><b>Section
+12 Handling Dynamic Responses and Correlation</b></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Example of capturing
+the Session ID with a Regular Expression Extractor</p>
+<p style="margin-bottom: 0cm; line-height: 100%">An example of using
+the Regular Expression Extractor is capturing the session ID on
+navigating to a home page in a new session.<br/>
+A common login
+pattern is to pass a session id as a hidden parameter along with
+username and password.<br/>
+When load testing multiple logins in
+jMeter the session ID for each login must be captured and passed to a
+variable.</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><img src="Learn_jMeter_notes%202_html_f961cf4cf5c8880e.png" name="Image1" align="left" width="997" height="352" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font size="4" style="font-size: 14pt"><b>Section
+13 non-gui mode and reporting</b></font><br/>
+jMeter can be run in an
+admin-mode command shell.</p>
+<p style="margin-bottom: 0cm; line-height: 100%">&lt;path to
+jMeter.bat&gt; jMeter -n -t &lt; path to jmx file&gt; -i &lt;path to
+write result .jml file?</p>
+<p style="margin-bottom: 0cm; line-height: 100%">-n non-gui</p>
+<p style="margin-bottom: 0cm; line-height: 100%">-t test case file
+(.jmx) 
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+i result file (.jml) <br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><img src="Learn_jMeter_notes%202_html_e21d096b3e5d1134.png" name="Image3" align="left" width="997" height="185" border="0"/>
+
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">The .jml results
+file can be viewed as a spreadsheet</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><span style="text-decoration: none">Alternative
+result reporting:<br/>
+<a href="https://gettaurus.org/">Taurus</a> 
+is a graphical results tool<br/>
+<a href="https://www.blazemeter.com/">Blazemeter</a>
+is a commercial paas company that provides cloudbased load testing
+infrastructure </span><span style="text-decoration: none">that
+includes a graphical reporting tool</span></p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<font size="4" style="font-size: 14pt"><b>Section 14 Jmeter
+distributed mode.</b></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><span style="text-decoration: none"><br/>
+</span><span style="text-decoration: none">Whereas
+jMeter tests are developed on standalone systems, Distrubuted systems
+generally used for production testing where the number of </span><span style="text-decoration: none">threads
+(</span><span style="text-decoration: none">users</span><span style="text-decoration: none">)
+is in the 100&rsquo;s or 1000&rsquo;s</span><span style="text-decoration: none"><br/>
+</span><span style="text-decoration: none">Basic
+Architecture </span><span style="text-decoration: none">of a
+distributed system</span></p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<img src="Learn_jMeter_notes%202_html_832752f3b2cef8af.png" name="Image14" align="left" width="997" height="729" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+Steps:</p>
+<ul>
+	<li><p style="margin-bottom: 0cm; line-height: 100%"><span style="text-decoration: none">at
+	1 master and 1 or more slave </span><span style="text-decoration: none">machine</span><span style="text-decoration: none">s</span><span style="text-decoration: none">
+	exist on the same s</span><span style="text-decoration: none">u</span><span style="text-decoration: none">bnet
+	and a</span><span style="text-decoration: none">ll</span><span style="text-decoration: none">
+	have the same version of jMeter</span></p>
+	<li><p style="margin-bottom: 0cm; line-height: 100%"><span style="text-decoration: none">On
+	</span><span style="text-decoration: none">th</span><span style="text-decoration: none">e
+	</span><span style="text-decoration: none">Master and </span><span style="text-decoration: none">each
+	</span><span style="text-decoration: none">S</span><span style="text-decoration: none">lave
+	d</span><span style="text-decoration: none">isable </span><span style="text-decoration: none">SSL
+	for RMI in jmeter properties to workaround network configuration for
+	demo purposes </span><span style="text-decoration: none">only</span><span style="text-decoration: none">.<br/>
+	#
+	Set this if you don't want to use SSL for RMI</span></p>
+	<ul>
+		<ul>
+			<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+			server.rmi.ssl.disable=true # change from false to true</p>
+		</ul>
+	</ul>
+	<li><p style="margin-bottom: 0cm; line-height: 100%"><span style="text-decoration: none">S</span><span style="text-decoration: none">tart
+	the </span><span style="text-decoration: none">S</span><span style="text-decoration: none">lave
+	machine(s) with jmeter-server.bat.  Note the ip address(es)</span></p>
+	<li><p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+	On the Master update the the ip address of the slaves in
+	jmeter.properties</p>
+	<li><p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+	Edit the list of remote hosts in jmeter-properties, commenting out
+	the default localhost IP (127.0.0.1) <br/>
+# Remote Hosts - comma
+	delimited</p>
+</ul>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+#remote_hosts=127.0.0.1</p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+remote_hosts=192.168.1.66</p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<img src="Learn_jMeter_notes%202_html_9ada77027bd86d2f.png" name="Image2" align="left" width="997" height="314" border="0"/>
+
+<p style="margin-left: 1.25cm; margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+On the Master machine open a test and select run -&gt; remote start
+and select the ip address of the slave or start all.</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><span style="text-decoration: none"><br/>
+On
+the slave machine </span><span style="text-decoration: none">the
+command window</span><span style="text-decoration: none"> will
+display &ldquo;Starting the test ...&rdquo; and &ldquo;Finished the
+test ...&rdquo;</span></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><img src="Learn_jMeter_notes%202_html_c87ce48c5b4e7292.png" name="Image12" align="left" width="997" height="436" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+The jMeter instance on the master will show the listener results for
+tests run on the slave machines.</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<img src="Learn_jMeter_notes%202_html_bcae52aed84a4aef.png" name="Image13" align="left" width="997" height="665" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<font size="4" style="font-size: 14pt"><b>Section 15 Beanshell
+scripting</b></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><span style="text-decoration: none">BeanShell
+is a scripting language that can run in the Jav</span><span style="text-decoration: none">a</span><span style="text-decoration: none">
+Runtime Environment. </span><span style="text-decoration: none">In
+jMeter it provides a  programmic capability for tasks such as p</span><span style="text-decoration: none">assing
+a dynamically randomized variable.</span></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><span style="text-decoration: none">Monitor
+Beanshell o</span><span style="text-decoration: none">utput</span><span style="text-decoration: none">
+in jMeter Options -&gt; Log Viewer.</span></p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+Beanshell Hello World and jMeter variable api
+example.<br/>
+https://jmeter.apache.org/api/index.html</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<img src="Learn_jMeter_notes%202_html_9d69cbd20cc5beed.png" name="Image16" align="left" width="997" height="696" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<img src="Learn_jMeter_notes%202_html_9e8d03c57043001f.png" name="Image15" align="left" width="997" height="917" border="0"/>
+A
+random unique value can be generated by the &ldquo;epoch time&rsquo;
+method or by adding a Random Variable sampler.</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+A BeanShell PostProcessor can be used to evaluate the response code
+of the previous iteration.</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<img src="Learn_jMeter_notes%202_html_1acf8d5545ed7183.png" name="Image17" align="left" width="997" height="557" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<font size="4" style="font-size: 14pt"><b>Section 16 Selenium
+Integration </b></font>
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><span style="text-decoration: none">A
+</span><span style="text-decoration: none">java-based Selenium
+project compiled to a jar can be run within Jmeter.  First copy the
+jar to \apache-jmeter-&rdquo;</span><span style="text-decoration: none">ver&rdquo;</span><span style="text-decoration: none">\lib\junit</span><span style="text-decoration: none">\.
+ Then in a thread group of a jMeter project add a jUnit Request
+sampler.</span></p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+The sampler will read the Classnames and their Test Methods of all
+jar files in the junit folder.</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+Select the Classname and Test Method from the dropdowns.</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+In the Thread Group set the Number of Threads and any other
+parameters and run.<br/>
+<br/>
+Jmeter will execute the tests from the
+jar file and report results to listeners as for a jmeter-hosed
+project.</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><span style="text-decoration: none"><br/>
+A</span><span style="text-decoration: none">
+limitation of this method is that a separate browser will be opened
+for each thread and this can limit the number or threads that can be
+run.</span></p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><span style="text-decoration: none">A
+</span><span style="text-decoration: none">solution is to use the
+HtmlUnit , a headless java-based web browser integrated with
+Selenium.</span></p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<img src="Learn_jMeter_notes%202_html_82da0a20cdbf4a1a.png" name="Image18" align="left" width="997" height="601" border="0"/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<font size="4" style="font-size: 14pt"><b>Section 17 REST API load
+testing</b></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+This section of the Udemy course is obsolete and not worth listening
+to.<br/>
+The summary is that a REST API can be load tested from a
+HTTP Request sampler where the fields are entered manually as opposed
+to from a Test Script Recorder. <br/>
+<br/>
+Below is an example using
+openweathermap.org where a free API key can be requested</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
+<br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><span style="text-decoration: none"><font size="4" style="font-size: 14pt"><b>Section
+18 Monitoring Server Performance</b></font></span><span style="text-decoration: none"><br/>
+<br/>
+Demo
+u</span><span style="text-decoration: none">sing</span><span style="text-decoration: none">
+the commercial java profiler tool YourKit.</span></p>
+</body>
+</html>
