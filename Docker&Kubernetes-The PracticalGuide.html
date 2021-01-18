@@ -1,0 +1,447 @@
+<html>
+  <head>
+    <style>
+      code {
+        font-family: Consolas,"courier new";
+        color: blue;
+        background-color: #f1f1f1;
+        padding: 2px;
+        font-size: 100%;
+      }
+      p {
+        font-family: Consolas,"courier new";
+        color: green;
+        font-size: 100%;
+      }
+      </style>
+  </head>
+  <body>
+    <p>Course Notes</p>
+    <!-- <p></p>
+<ul>
+  <li></li>
+</ul> -->
+    <p>General</p>
+    <ul>
+      <li>
+        Docker is a tool to manage containers. Containers are the running
+        instances of Images. Images are the set of instructions to create a
+        container.
+      </li>
+    </ul>
+    <p>Setup on Windows 10</p>
+    <ul>
+      <li>... details to come</li>
+    </ul>
+    <p>Basic Docker commands</p>
+    <ul>
+      <li><code>docker ps</code> - lists all running containers</li>
+      <li><code>docker ps -a </code> - lists running and stopped containers</li>
+      <li><code>docker images</code> lists images and shows image disk space</li>
+      <li>
+        <code>docker build .</code> - builds an image from a dockerfile at the current
+        file location
+      </li>
+      <li>
+        <code>docker run -p portmapping imageID</code> - starts a container and maps
+        external port 3000 to internal port 80 - e.g. docker run -p 3000:80
+        8e3776ae2ecb
+      </li>
+      <li>
+        <code>docker stop containername </code> <code>containername </code> - stops a
+        container identified by container ID or name
+      </li>
+      <li>
+        <code>docker rm containername containername</code> - removes all
+        containername's
+      </li>
+      <li>
+        <code>docker rmi imageID imageID</code> - removes all imageID's, assuming they
+        are stopped or not having dependent images
+      </li>
+      <li>
+        <code>docker rmi prune</code> - removes all images that do not have a
+        container, including stopped containers
+      </li>
+      <li>
+        <code>docker run --rm imageID</code> - The --rm flag automatically removes the
+        container when it is stopped, preventing build-up of obsolete
+        containers.
+      </li>
+    </ul>
+
+    <p>Managing Images and Containers</p>
+
+    <ul>
+      <li>
+        Where an ID is required in a Docker command, you only need the minimum
+        number of characters that define the ID from any others. e.g.
+        <code>docker run 8e3776ae2ecb</code> could be shortened to
+        <code>docker run 8</code> if there are no other containers starting with '8'
+      </li>
+      <li>
+        Docker images, once built are read-only. Any change to the underlying
+        source code must be rebuilt to a new image to take effect.
+      </li>
+      <li>
+        Docker images are layer-based and every instruction in a dockerfile
+        creates a layer and the layers are cached. If an image is rebuild the
+        unchanged layers are built from the cache and only the changed layers
+        are built from scratch. When one layer is changed, earlier layers are
+        run from cache, but all subsequent layers are run from scratch.
+      </li>
+      <li>
+        A basic optimization is to create steps to copy the package.json file
+        and run npm before copying source code files. This prevents the
+        dependancy libraries from downloading and rebuilding each time the image
+        is built
+      </li>
+      <li>
+        By default docker run starts in attached mode - the terminal is locked.
+        Docker start starts in attached mode by default.
+        <code>docker attach dockername</code>> will attach to a running container.
+        <code>docker logs</code>> will print the container log file. In the case where
+        a container is attached, <code>docker -f logs</code>> will print the existing
+        logs and continue to monitor for new messages.
+      </li>
+      <li>
+        To docker run a container (attached mode by default) and have it listen
+        for input add the -i -t (or -it) flags. The -t (tty) flag is remembered
+        if the container is stopped and started.
+      </li>
+      <li>
+        If an interactive container is required have input and output
+        capabilities, use the -i (interactive) flag like:
+        <code>docker start -ai 'container_name'</code>>
+      </li>
+      <li>
+        To remove a stopped container use:
+        <code>docker rm youthful_beaver musing_zhukovsky bold_chandrasekhar</code>>
+        with spaces between more than 1 container. A container must be stopped
+        to use rm.
+      </li>
+      <li>
+        To inspect the configuration and other details of an image use:
+        <code>docker image inspect imageID</code>
+      </li>
+      <li>
+        To copy files to and from a container use the cp command:
+        <code>docker cp dummy/. containerName:.test</code> This command copies all
+        files in local machine dummy folder to a folder /test in the container,
+        creating the folder if necessary
+      </li>
+    </ul>
+
+    <p>Naming & Tagging Images and Containers</p>
+    <ul>
+      <li>
+        Use <code>docker run --name customContainerName</code> --name flag to assign a
+        name to a container
+      </li>
+      <li>
+        Use a combination of repositoryName:Tag to assign a name:tag combination
+        to an image as in <code>docker build -t myApp:Latest ...</code>
+      </li>
+    </ul>
+    <p>Example dockerfile</p>
+
+    <pre>
+      <code>
+FROM node
+WORKDIR /app
+COPY package.json /app  
+RUN npm install 
+COPY . /app
+EXPOSE 80
+CMD ["node", "server.js"]
+</code>
+
+</pre>
+
+    <p>Sharing Images</p>
+<ul>
+  <li>Images can be shared, containers not.  If you have a docker image you can create a container from it.</li>
+  <li>2 ways to share an image:</li>
+  <li>Share the dockerfile and related source code</li>
+  <li>Share a fully built image via Docker Hub or a private registry services</li>
+  <li><pre>
+    To share: <code>docker push Image_Name</code> (Docker Hub by default or Host:Name for private registries)
+    To Use:  <code>docker pull Image_Name</code> (or Host:Name for private registries)
+
+    To pust a local image the tag must match the Docker Hub repository name.  Rename with docker tag:
+    <code>docker tag assignment1:nodeApp jbrisco/node-hello-world </code>
+    Note that docker tag clones a new name, it does not replace the previous name
+    To push or pull to Docker Hub you must log in with <code>docker login</code>
+    Note that <code>docker run</code> does not check for a newer image on Docker Hub if and older local image exists
+  </pre></li>
+</ul>
+
+    <p>Managing Data and Volumes</p>
+    <pre>
+      Images are read-olny.  It's not possible to add or change the contents of an image.
+      Persistent data is stored in containers & volumes.
+      A volume is an external file on the hard drive managed by docker and non-visible,
+       that is mirrored with an internal container file.
+       Volumes are managed by <code>docker volume</code> commands.
+      <b>Anonymous volumes</b> are created with a Dockerfile command like
+      <code>VOLUME ["app/appName"]</code>
+      Anonymous volumes do not survive container shutdown.
+
+      <b>Named volumes</b> do not have a command in dockerfile.
+      Instead a <code> docker run -v</code> option is used like:
+      <code> docker run <b>-v volumeName:volumePath</b> -other-options&--flags imageName</code>>
+      Named volumes <b>survive</b> container shutdown and persist, but are not meant to be accesses from the host.
+
+
+    </pre>
+<ul>
+  <li>Use <code>docker volume ls</code> to list volumes</li>
+  <li><pre>Note:
+    The node command
+    <code>await fs.rename(tempFilePath, finalFilePath);</code>
+    does not work with docker volumes.  Use these commands instead:
+    <code>await fs.copyFile(tempFilePath, finalFilePath);
+   await fs.unlink(tempFilePath);</code>
+  </pre>
+  </li>
+</ul>
+<p>Bind mounts</p>
+<pre>
+  <b>Bind mounts </b>are another option that privide persistent <b>and editable</b> data
+  e.g. source code.
+  Bind mounts are created with run -v and a mapping from an absolute path on the local system
+   to a path in the container.
+   <code>docker run -v "/users/path-to-project-folder:/app" -other-options-and-flags imageName</code>
+    The path can be "" quoted to allow for spaces.
+
+    Configuration workaround for the node_modules folder:
+    By setting the bind mount above, the /node_modules folder points to the local system where it is empty. (assuming npm install wasn't run locally).
+    Node_modules folder should be excluded from the bind mount to the project folder.
+    To set this up add an anonymous folder with no local mapping like <code>-v /app/node_modules</code> 
+    This works because -v paths default to the more specific endpoint.
+    For example -v node_modules/app/node_modules is more specific than -v app:/app
+
+    Note: Workaround for Lecture 53:
+    Use a cmd shell and not the bash shell.
+    Use the shortcut for the local path like -v "%cd%":/app
+
+    Note: When a bind mount points to a local source code folder, changes are not reflected in the running container because node needs to be restarted.
+    There is no easy way to restart node short of stopping & restarting the container.
+    A workaround is to add a utility "Nodemon" as a dev dependency in package.json.  Nodemon watches for changes to source code files and restarts node when a change is detected.
+
+</pre>
+
+<p>Read-only volumes</p>
+<pre>
+  Volumes can be made read-only by adding an option <code>:ro</code> to a run -v command.
+  e.g. <code>-v "%cd%":/app</code>
+  Use case could be a configuration where live source code updates on local are migrated to a container.  Don't want the container to change local source.
+</pre>
+
+<p>.dockerignore file</p>
+<pre>a .dockerignore file can be added to a project to override copy of files or folders
+  in a docker build command. 
+  e.g. prevent copying the .git folder to the container
+  e.g. or prevent copying the node-modules from local to container when npm install is specifically run
+   inside the container </pre>
+
+   <p>Environment variables</p>
+   <pre>
+     Environment variables are set at runtime in a .dockerfile or in it own file, typically called .env ,
+     and called in docker run like <code>--env-file ./.env</code>
+     Syntax is ENV envName default :<code>ENV PORT 80</code>
+     e.g in a dockerfile you could have
+     <code>ENV PORT 80
+       Expose $PORT# environment variables are called with a preceeding $
+     </code>
+     Then in a run command the env var could be used like <code>-p 3000:8000 --env PORT=8000</code>
+   </pre>
+   <p>Arguments </p>
+   <pre>
+     Docker arguments are set at build time in a .dockerfile to set a flexible value in an image.
+     e.g. in a dockerfile add <code>ARG DEFAULT_PORT=80</code>
+     Then call the arg in a build command
+     docker build --build-arg DEFAULT_PORT=8000 .
+   </pre>
+
+   <p> Docker Container Networks</p>
+<p>Creating container networks</p>
+<pre>
+  To create a docker network run <code>docker network create my-network-name</code>
+  Unlike volumes, networks are not created automatically with a run command and must be created with docker network create
+</pre>
+<p>Setting a network at run time</p>
+<pre>
+  To use a docker network network in a url, use the network name as the hostname as in:
+ <code>http://my-network-name/my-route</code>
+
+ <p>Docker Network Cheat sheet:</p>
+ Networks / Requests
+In many application, you'll need more than one container - for two main reasons:
+1. It's considered a good practice to focus each container on one main task (e.g. run a web
+server, run a database, ...)
+
+2. It's very hard to configure a Container that does more than one "main thing" (e.g. run a
+web server AND a database)
+
+Multi-Container apps are quite common, especially if you're working on "real applications".
+
+Often, some of these Containers need to communicate though:
+either with each other
+or with the host machine
+or with the world wide web
+
+Communicating with the World Wide Web (WWW)
+
+Communicating with the WWW (i.e. sending Http request or other kinds of requests to other
+servers) is thankfully very easy.
+Consider this JavaScript example - though it'll always work, no matter which technology you're
+using:
+<code>fetch('https://some-api.com/my-data').then(...)</code>
+This very basic code snippet tries to send a GET request to some-api.com/my-data .
+This will work out of the box, no extra configuration is required! The application, running in a
+Container, will have no problems sending this request.
+
+Communicating with the Host Machine
+
+Communicating with the Host Machine (e.g. because you have a database running on the Host
+Machine) is also quite simple, though it doesn't work without any changes.
+One important note: If you deploy a Container onto a server (i.e. another machine), it's very unlikely
+that you'll need to communicate with that machine. Communicating to the Host Machine typically is a
+requirement during development - for example because you're running some development database on
+your machine.
+Again, consider this JS example:
+<code>fetch('localhost:3000/demo').then(...)</code>
+
+This code snippet tries to send a GET request to some web server running on the local host
+machine (i.e. outside of the Container but not the WWW).
+On your local machine, this would work - inside of a Container, it will fail. Because localhost
+inside of the Container refers to the Container environment, not to your local host machine
+which is running the Container / Docker!
+But Docker has got you covered!
+You just need to change this snippet like this:
+<code>fetch('host.docker.internal:3000/demo').then(...)</code>
+host.docker.internal is a special address / identifier which is translated to the IP address of
+the machine hosting the Container by Docker.
+Important: "Translated" does not mean that Docker goes ahead and changes the source code. Instead,
+it simply detects the outgoing request and is able to resolve the IP address for that request.
+
+Communicating with Other Containers
+
+Communicating with other Containers is also quite straightforward. You have two main options:
+1. Manually find out the IP of the other Container (it may change though)
+2. Use Docker Networks and put the communicating Containers into the same Network
+Option 1 is not great since you need to search for the IP on your own and it might change over
+time.
+Option 2 is perfect though. With Docker, you can create Networks via docker network create
+SOME_NAME and you can then attach multiple Containers to one and the same Network.
+Like this:
+<code>
+  docker network create my-network
+  docker run -network my-network --name cont1 my-image
+  docker run -network my-network --name cont2 my-other-image</code>
+Both cont1 and cont2 will be in the same Network.
+Now, you can simply use the Container names to let them communicate with each other - again,
+Docker will resolve the IP for you (see above).
+<code>fetch('cont1/my-data').then(...)</code>
+</pre>
+
+<p>Multi-container Applications</p>
+
+<pre>
+  <b>Set a volume to store Mongo db data.  Check the Mongo dockerHub documentation</b>
+  1. Using a named volume bind mount:
+  Add a named volume to the Mongo container /data/db path - <code> -v myVolName:/data/db</code>
+
+  2. Using a bind mount - 
+  <code>-v /my-local-path/mongo-db-folder:/data/db</code>
+
+  <p>Using Mongo db authentication</p>
+  Step 1. Add environment variables to the Mongo run command, as found in the dockerHub Mongo doc
+  <code>-e MONGO_INITDB_ROOT_USERNAME -e  MONGO_INITDB_ROOT_PASSWORD</code>
+  Step 2. Add the credentials to the mongo dv connect string, as found in the Mongo documentation (simple security).  
+  <code>'mongodb://max:secret@mongodb:27017/course-goals'</code>
+</pre>
+
+<p>Docker Compose</p>
+
+<pre>
+  Docker compose is a built-in tool to orchestrate docker commands.  It used a file,
+  <b>docker-compose.yaml </b> to set port mapping , volumes environment variables etc for a multi-container docker app and starts containers in the correct order 
+  with the <code>depends-on:</code> option.
+
+  Example of a docker-compose file:
+
+  <code>
+    version: "3.8"
+services:
+  mongodb:
+    image: 'mongo'
+    volumes:
+      - data:/data-db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: max
+      MONGO_INITDB_ROOT_PASSWORD: secret
+        # could also point to a file like:
+        # env_file:
+          # - ./env/mongo.env
+  # docker compose will automatically create a network for all containers, or could be done manually
+  backend:
+  # docker build short format
+    build: ./backend
+    # docker build longer format
+    #build:   # longer format
+    #  context: ./backend
+    #  dockerfile: dockerfile
+         # args:
+           #some-arg: arg-value
+    ports: 
+      - '80:80'
+
+    volumes: 
+      - logs:/app/logs
+      - ./backend:/app
+      - /app/node_modules
+
+    env_file:
+      - ./env/backend.env
+
+    depends_on:
+      - mongodb      
+
+  frontend:
+    build: ./frontend
+    ports: 
+      - '3000:3000'
+
+    volumes: 
+      - ./frontend/src:/app/src
+
+    stdin_open: true
+    tty: true
+    depends_on: 
+      - backend 
+
+  # named volumes must be specified with a top-level volume tag.  Anonymous and bind mount volumes are not listed here.
+volumes:
+  data:
+  logs:
+  </code>
+To start and stop a dockerized application with docker-compose the up and down options are used.
+<code>docker-compose up</code>
+Or with more detail like detached mode , rebuild from scratch and adding a specific service name 
+<code>docker-compose up -d --build [service name] </code>
+<code>docker-compose down</code>
+</pre>
+
+<p>Deploying Docker Containers</p>
+
+<pre>
+Soem points on deployment
+* Bind mounts should not be used in production
+* Containerized apps may need a build step, e'g' React apps that need an optimization step after deployment
+
+
+</pre>
+  </body>
+</html>
